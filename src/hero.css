@@ -1,0 +1,98 @@
+/* -------------------- Title styles -------------------- */
+.hero-title {
+  position: absolute;
+  left: 50%;
+  top: clamp(20px, 5vh, 60px);
+  transform: translateX(-50%);
+  z-index: 20;
+
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: clamp(32px, 8vw, 96px);
+  line-height: 1.05;
+  color: rgba(15, 23, 42, 0.92); /* slate-900-ish */
+
+  /* subtle lift so it reads on light bg */
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.9),
+    0 14px 28px rgba(15,23,42,0.12);
+
+  opacity: 0;
+  animation: heroFadeIn 2s ease-out 0.2s forwards;
+}
+
+@keyframes heroFadeIn {
+  0%   { opacity: 0; transform: translate(-50%, -10px); }
+  100% { opacity: 1; transform: translate(-50%,   0px); }
+}
+
+/* ---------------------- 'Room' styles --------------------- */
+/* Light “room” that recedes into the distance */
+.hero-bg { --grid: rgba(2, 6, 23, 0.14); }
+
+/* Soft ambient light + depth */
+.hero-haze {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(1200px 600px at 50% 20%, rgba(255,255,255,.95), rgba(255,255,255,.6) 35%, rgba(255,255,255,0) 65%),
+    radial-gradient(1200px 600px at 50% 80%, rgba(255,255,255,.25), rgba(255,255,255,0) 70%);
+  pointer-events: none;
+}
+
+/* Bright horizon glow */
+.hero-horizon {
+  position: absolute; left: -20vw; right: -20vw; top: 36%;
+  height: 140px;
+  background: radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.25), rgba(255,255,255,0));
+  filter: blur(22px);
+  opacity: .9; pointer-events: none;
+}
+
+/* Put perspective on the wrapper (cleaner rasterization) */
+.hero-floor-wrap {
+  position: absolute; left: -12vw; right: -12vw; bottom: -10vh;
+  height: 120vh;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Tile a single cell; slightly thicker horizontals; soften contrast a bit */
+.hero-bg { --grid: rgba(2, 6, 23, 0.16); }  /* was 0.14 */
+
+.hero-floor {
+  height: 100%;  /* gives extra depth before fade */
+  background-image:
+    /* vertical lines */
+    linear-gradient(to right, var(--grid) 0 2px, transparent 2px 80px),
+    /* horizontal lines (make 2.25px to resist sub-pixel dropouts) */
+    linear-gradient(to   top, var(--grid) 0 2.25px, transparent 2.25px 80px);
+  background-size: 80px 80px, 80px 80px;
+  background-position: 0 0, 0 0;
+  background-repeat: repeat, repeat;
+
+  transform: rotateX(70deg);             /* a hair less steep = fewer dropouts */
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+
+  /* fade earlier to hide the thinnest rows near horizon */
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 42%, rgba(0,0,0,.6) 66%, rgba(0,0,0,0) 88%);
+          mask-image: linear-gradient(to top, rgba(0,0,0,1) 42%, rgba(0,0,0,.6) 66%, rgba(0,0,0,0) 88%);
+  filter: drop-shadow(0 20px 20px rgba(15,23,42,0.06));
+}
+
+/* Additional distant fog to blend floor into the background */
+.hero-fog {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 70%, rgba(255,255,255,0.9) 95%),
+    radial-gradient(900px 380px at 50% 38%, rgba(255,255,255,0.45), rgba(255,255,255,0) 60%);
+  pointer-events: none;
+}
+
+/* Gentle edge darkening so it feels enclosed */
+.hero-vignette {
+  position: absolute; inset: -24px;
+  background: radial-gradient(1200px 800px at 50% 30%, rgba(255,255,255,0), rgba(0,0,0,.06));
+  pointer-events: none;
+}
