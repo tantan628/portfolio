@@ -96,3 +96,13 @@
   background: radial-gradient(1200px 800px at 50% 30%, rgba(255,255,255,0), rgba(0,0,0,.06));
   pointer-events: none;
 }
+
+/* -------------------- 3D Avatar Styles ---------------------*/
+/* 3D canvas pinned to bottom of hero */
+.hero-3d{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 60vh;           /* tweak: 50–70vh depending on taste */
+  pointer-events: none;
+}
+.hero-3d canvas{ width:100%; height:100%; display:block; }

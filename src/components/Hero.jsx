@@ -1,4 +1,5 @@
 import "../hero.css";
+import BlockyWalker from "./BlockyWalker";
 
 export default function Hero() {
   return (
@@ -19,6 +20,9 @@ export default function Hero() {
 
       {/* Title */}
       <h1 className="hero-title">Tanis.dev</h1>
+
+      {/* 3D avatar overlay */}
+      <BlockyWalker />
     </section>
   );
 }
